@@ -18,6 +18,16 @@ class App extends Component {
     this.setState({ pokemons: [newPokemon, ...this.state.pokemons]})
   }
 
+  updatePokemon = (id, updatedPokemon) => {
+    const pokemons = this.state.pokemons.map( p => {
+      if (p.id === id) {
+        return updatedPokemon
+      } 
+        return p
+    })
+    this.setState({ pokemons })
+  }
+
   getId = () => {
     // NOTE We are just using this as a helper function for id's since we aren't using a db yet
     return Math.floor((1 + Math.random()) * 0x10000)
@@ -40,7 +50,7 @@ class App extends Component {
         <Header color='red' size='huge' textAlign='center'>
           Pokedex
         </Header>
-        <Pokedex pokemons={pokemons} releasePokemon={this.releasePokemon} />
+        <Pokedex pokemons={pokemons} releasePokemon={this.releasePokemon} updatePokemon={this.updatePokemon} />
         <PokeForm addPokemon={this.addPokemon}/>
       </>
     )

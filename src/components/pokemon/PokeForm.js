@@ -30,7 +30,7 @@ class PokeForm extends Component {
   render () {
     const {name, type, level} = this.state
     return(
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit} >
         <Form.Input
           label='Pokemon Name'
           required

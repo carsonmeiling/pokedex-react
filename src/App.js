@@ -1,26 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { Header } from 'semantic-ui-react';
+import Pokedex from './components/pokemon/Pokedex';
+import PokeForm from './components/pokemon/PokeForm';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends Component {
+  state = { pokemons: [
+    {id: 1, name: 'Pikachu', type: 'electric', level: 8 },
+    {id: 2, name: 'Jiggly Puff', type: 'fairy', level: 35 },
+    {id: 3, name: 'Charmander', type: 'fire', level: 2 },
+    {id: 4, name: 'Mew Two', type: 'psychic', level: 89 },
+    {id: 5, name: 'Digglet', type: 'ground', level: 45 },
+  ]}
+
+  addPokemon = (incomingPokemon) => {
+    let newPokemon = { id: this.getId(), ...incomingPokemon}
+    this.setState({ pokemons: [newPokemon, ...this.state.pokemons]})
+  }
+
+  getId = () => {
+    // NOTE We are just using this as a helper function for id's since we aren't using a db yet
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  };
+
+
+  releasePokemon = (id) => {
+    const{ pokemons } = this.state
+    this.setState({pokemons: pokemons.filter( p => p.id !== id)})
+  }
+
+
+  render () {
+    const { pokemons } = this.state
+
+    return(
+      <>
+        <Header color='red' size='huge' textAlign='center'>
+          Pokedex
+        </Header>
+        <Pokedex pokemons={pokemons} releasePokemon={this.releasePokemon} />
+        <PokeForm addPokemon={this.addPokemon}/>
+      </>
+    )
+  }
 }
 
 export default App;
